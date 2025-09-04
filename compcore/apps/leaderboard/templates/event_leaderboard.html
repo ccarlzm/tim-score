@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}Leaderboard — {{ event.name }}{% endblock %}
+{% block content %}
+  <h1>{{ event.name }} — Leaderboard</h1>
+  <div class="rf-spacer"></div>
+  {% include "events/leaderboard.html" %}
+{% endblock %}

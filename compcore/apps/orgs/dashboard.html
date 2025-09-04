@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Organizaciones — Panel{% endblock %}
+
+{% block content %}
+  <header class="row" style="justify-content:space-between; margin-bottom:14px">
+    <div class="row">
+      <a class="btn" href="{% url 'home' %}">← Inicio</a>
+      <span class="pill">Organizaciones</span>
+    </div>
+  </header>
+
+  <section class="card">
+    <h1 style="margin:0 0 8px 0">Panel de organizaciones</h1>
+    <p class="muted">Por ahora no hay entidades definidas en <code>orgs.models</code>. Este panel queda listo para integrar:</p>
+    <ul class="muted" style="margin-top:8px">
+      <li>Creación/edición de organizaciones.</li>
+      <li>Asociación de eventos a una organización.</li>
+      <li>Gestión de equipos vinculados.</li>
+    </ul>
+  </section>
+{% endblock %}

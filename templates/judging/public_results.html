@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Resultados — {{ event.name }}{% endblock %}
+
+{% block content %}
+
+<style>
+  .lb-wrap { margin-top: 16px; }
+  .lb-card { border:1px solid #e5e7eb; border-radius:16px; padding:16px; margin-bottom:16px; background:#fff; }
+  .lb-card__header { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+  .lb-title { font-size:18px; font-weight:700; margin:0; }
+  .lb-subtitle { font-size:13px; color:#6b7280; margin:4px 0 0 0; }
+
+  .lb-heat { margin-top:12px; }
+  .lb-heat__title { font-size:15px; font-weight:600; margin:0 0 8px 0; color:#111827; }
+
+  .lb-table-wrap { overflow:auto; border-radius:12px; border:1px solid #e5e7eb; }
+  .lb-table { width:100%; border-collapse:separate; border-spacing:0; font-size:14px; }
+  .lb-table th, .lb-table td { padding:10px 12px; border-bottom:1px solid #f1f5f9; }
+  .lb-table thead th {
+    position: sticky; top: 0; z-index: 1;
+    background: #f8fafc; /* header sticky */
+    text-align:left; font-weight:700; color:#0f172a;
+  }
+  .lb-table tbody tr:hover td { background:#fcfcfd; }
+  .lb-col-lane { width:72px; text-align:center; white-space:nowrap; font-variant-numeric: tabular-nums; }
+  .lb-col-name { min-width:240px; }
+  .lb-col-tight { white-space:nowrap; font-variant-numeric: tabular-nums; }
+  .lb-badge {
+    display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:600;
+    background:#eef2ff; color:#3730a3; padding:4px 8px; border-radius:999px; border:1px solid #e5e7eb;
+  }
+  .lb-empty { text-align:center; color:#6b7280; font-size:14px; padding:16px; }
+</style>
+
+<h1 class="title" style="font-size:20px;margin:0;">Resultados — {{ event.name }}</h1>
+<p class="muted" style="margin-top:8px;">Vista pública. Orden por número de heat descendente (41, 40, 33, 32 …). Sin divisiones.</p>
+
+<div class="lb-wrap">
+
+  {% if all_heats %}
+    <div class="lb-card">
+      <div class="lb-card__header">
+        <div>
+          <h2 class="lb-title">Resultados por Heat (global)</h2>
+          <p class="lb-subtitle">Ordenado por Heat ↓ (sin divisiones)</p>
+        </div>
+        <span class="lb-badge">Resultados</span>
+      </div>
+
+      {% for h in all_heats %}
+        <div class="lb-heat">
+          <h3 class="lb-heat__title">W{{ h.workout_order }} — Heat #{{ h.heat_number }}</h3>
+
+          <div class="lb-table-wrap">
+            <table class="lb-table">
+              <thead>
+                <tr>
+                  <th class="lb-col-lane">Lane</th>
+                  <th class="lb-col-name">Equipo / Atleta</th>
+                  <th class="lb-col-tight">Tiempo</th>
+                  <th class="lb-col-tight">Reps</th>
+                  <th class="lb-col-tight">Peso (kg)</th>
+                  <th class="lb-col-tight">Tie-break</th>
+                  <th class="lb-col-tight">Estado</th>
+                  <th class="lb-col-tight">Juez</th>
+                  <th>Notas</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for row in h.rows %}
+                  <tr>
+                    <td class="lb-col-lane">#{{ row.lane }}</td>
+                    <td class="lb-col-name">{{ row.participant }}</td>
+                    <td class="lb-col-tight">{% if row.time_display %}{{ row.time_display }}{% else %}—{% endif %}</td>
+                    <td class="lb-col-tight">{% if row.reps != None %}{{ row.reps }}{% else %}—{% endif %}</td>
+                    <td class="lb-col-tight">{% if row.weight_kg != None %}{{ row.weight_kg }}{% else %}—{% endif %}</td>
+                    <td class="lb-col-tight">{% if row.tiebreak_display %}{{ row.tiebreak_display }}{% else %}—{% endif %}</td>
+                    <td class="lb-col-tight">{% if row.status %}{{ row.status }}{% else %}—{% endif %}</td>
+                    <td class="lb-col-tight">{% if row.judge_name %}{{ row.judge_name }}{% else %}—{% endif %}</td>
+                    <td>{% if row.notes %}{{ row.notes }}{% else %}—{% endif %}</td>
+                  </tr>
+                {% empty %}
+                  <tr><td class="lb-empty" colspan="9">Sin resultados cargados.</td></tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="lb-card"><div class="lb-empty">No hay resultados disponibles todavía.</div></div>
+  {% endif %}
+
+  <div style="margin-top:12px;">
+    <a class="rf-btn rf-btn--ghost" href="{% url 'event_detail' event.slug %}">Volver al evento</a>
+  </div>
+
+</div>
+{% endblock %}

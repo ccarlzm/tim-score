@@ -1,0 +1,121 @@
+[
+  {
+    "model": "events.event",
+    "pk": 1,
+    "fields": {
+      "name": "FORCE GAMES Demo",
+      "slug": "force-games",
+      "status": "OPEN",
+      "start_date": "2025-08-01",
+      "end_date": "2025-08-03",
+      "registration_open": true,
+      "registration_deadline": "2025-07-25"
+    }
+  },
+  {
+    "model": "events.division",
+    "pk": 1,
+    "fields": {
+      "event": 1,
+      "name": "RX Individual",
+      "team_size": 1,
+      "capacity_individuals": 60,
+      "capacity_teams": null,
+      "male_quota": null,
+      "female_quota": null,
+      "min_age": null,
+      "max_age": null,
+      "heat_capacity": 10
+    }
+  },
+  {
+    "model": "events.division",
+    "pk": 2,
+    "fields": {
+      "event": 1,
+      "name": "Team Scaled (2)",
+      "team_size": 2,
+      "capacity_individuals": null,
+      "capacity_teams": 30,
+      "male_quota": null,
+      "female_quota": null,
+      "min_age": null,
+      "max_age": null,
+      "heat_capacity": 8
+    }
+  },
+  {
+    "model": "events.workout",
+    "pk": 1,
+    "fields": {
+      "event": 1,
+      "order": 1,
+      "title": "AMRAP 10 — Thrusters & Pull-ups",
+      "scoring_type": "REPS",
+      "cap_time_seconds": 600
+    }
+  },
+  {
+    "model": "events.workout",
+    "pk": 2,
+    "fields": {
+      "event": 1,
+      "order": 2,
+      "title": "For Time — Burpees & Box Jumps",
+      "scoring_type": "TIME",
+      "cap_time_seconds": 480
+    }
+  },
+  {
+    "model": "events.workoutheat",
+    "pk": 1,
+    "fields": {
+      "workout": 1,
+      "division": 1,
+      "heat_number": 1,
+      "start_time": null,
+      "capacity": 10,
+      "is_published": true,
+      "published_at": null
+    }
+  },
+  {
+    "model": "events.workoutheat",
+    "pk": 2,
+    "fields": {
+      "workout": 1,
+      "division": 1,
+      "heat_number": 2,
+      "start_time": null,
+      "capacity": 10,
+      "is_published": true,
+      "published_at": null
+    }
+  },
+  {
+    "model": "events.workoutheat",
+    "pk": 3,
+    "fields": {
+      "workout": 1,
+      "division": 2,
+      "heat_number": 1,
+      "start_time": null,
+      "capacity": 8,
+      "is_published": true,
+      "published_at": null
+    }
+  },
+  {
+    "model": "events.workoutheat",
+    "pk": 4,
+    "fields": {
+      "workout": 2,
+      "division": 1,
+      "heat_number": 1,
+      "start_time": null,
+      "capacity": 10,
+      "is_published": false,
+      "published_at": null
+    }
+  }
+]

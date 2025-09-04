@@ -1,0 +1,5 @@
+<div class="rf-card">
+  <h3>W{{ workout.order }} — {{ workout.name }}</h3>
+  <p class="muted">{{ workout.description|truncatewords:22 }}</p>
+  <a class="rf-btn rf-btn--primary" href="{% url 'judging_heat_select' event_slug=event.slug order=workout.order %}">Seleccionar Heat</a>
+</div>

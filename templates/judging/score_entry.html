@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Ingreso de puntajes{% endblock %}
+{% block content %}
+  <h1>Ingreso de puntajes · Heat {{ heat.heat_number }}</h1>
+  <p class="muted">{{ heat.division.name }} · W{{ heat.workout.order }} — {{ heat.workout.name }}</p>
+  <div class="rf-spacer"></div>
+  <form method="post">
+    {% csrf_token %}
+    <table class="rf-table">
+      <thead><tr><th>Lane</th><th>Atleta/Equipo</th><th>Resultado</th></tr></thead>
+      <tbody>
+        {% for row in lanes %}
+          <tr>
+            <td>{{ row.lane }}</td>
+            <td>{{ row.name }}</td>
+            <td>{{ row.field }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <div class="rf-spacer"></div>
+    <button class="rf-btn rf-btn--primary" type="submit">Guardar</button>
+  </form>
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_urls %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+  <a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+  &rsaquo; <a href="{% url 'admin:app_list' app_label='events' %}">Events</a>
+  &rsaquo; {% trans "Propose heats" %}
+</div>
+{% endblock %}
+
+{% block content %}
+<h1>{% trans "Propose heats" %}</h1>
+
+{% if form.non_field_errors %}
+  <ul class="errorlist nonfield">
+    {% for err in form.non_field_errors %}<li>{{ err }}</li>{% endfor %}
+  </ul>
+{% endif %}
+
+<form method="post" novalidate>
+  {% csrf_token %}
+
+  <fieldset class="module aligned">
+    {% for field in form %}
+      <div class="form-row{% if field.errors %} errors{% endif %}">
+        <div>
+          <label for="{{ field.id_for_label }}">{{ field.label }}{% if field.field.required %}*{% endif %}</label>
+          {{ field }}
+          {% if field.help_text %}<p class="help">{{ field.help_text|safe }}</p>{% endif %}
+          {% if field.errors %}
+            <ul class="errorlist">
+              {% for e in field.errors %}<li>{{ e }}</li>{% endfor %}
+            </ul>
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  </fieldset>
+
+  <div class="submit-row">
+    <input type="submit" class="default" value="{% trans 'Submit' %}">
+    <a class="button" href="{% url 'admin:events_workoutheat_changelist' %}">{% trans 'Cancel' %}</a>
+  </div>
+</form>
+
+<script>
+(function() {
+  var ev = document.getElementById('id_event');
+  if (ev) {
+    ev.addEventListener('change', function() {
+      var v = ev.value || '';
+      var url = new URL(window.location.href);
+      if (v) { url.searchParams.set('event', v); }
+      else { url.searchParams.delete('event'); }
+      window.location.href = url.toString();
+    });
+  }
+})();
+</script>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Jueces · {{ event.name }}{% endblock %}
+
+{% block content %}
+  <h1 class="rf-h1">Zona de Jueces — {{ event.name }}</h1>
+  <p class="muted">Acceso restringido a jueces y staff.</p>
+
+  <div class="rf-card">
+    <div class="rf-card__header"><strong>Briefing & Herramientas</strong></div>
+    <div class="rf-card__body">
+      <ul class="rf-list">
+        <li>Brief de WODs</li>
+        <li>Reglas específicas por división</li>
+        <li>Planillas de control</li>
+        <li>Contacto del Head Judge</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="rf-actions" style="margin-top:12px;">
+    <a class="rf-btn rf-btn--ghost" href="{% url 'event_detail' event.slug %}">Volver al evento</a>
+  </div>
+{% endblock %}

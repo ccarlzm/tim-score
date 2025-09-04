@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Crear cuenta{% endblock %}
+{% block content %}
+  <h1>Crear cuenta</h1>
+  <div class="rf-spacer"></div>
+  <form method="post">
+    {% csrf_token %}
+    {% for field in form %}
+      <div class="rf-field">
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {{ field }}
+        {% if field.help_text %}<small class="muted">{{ field.help_text }}</small>{% endif %}
+        {% for error in field.errors %}<div class="rf-alert rf-alert--error">{{ error }}</div>{% endfor %}
+      </div>
+    {% endfor %}
+    <button class="rf-btn rf-btn--primary" type="submit">Crear cuenta</button>
+  </form>
+{% endblock %}

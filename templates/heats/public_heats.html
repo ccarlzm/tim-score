@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Heats — {{ event.name }} · W{{ workout.order }}{% endblock %}
+
+{% block content %}
+  <h1 class="rf-h1">{{ event.name }} — W{{ workout.order }} · {{ workout.name }}</h1>
+  <p class="muted">Lista pública de heats por división (ordenada por número de heat).</p>
+  <div class="rf-spacer"></div>
+
+  {% if heats %}
+    {% for h in heats %}
+      <div class="rf-card">
+        <div class="rf-card__header">
+          <strong>División:</strong> {{ h.division.name }} &nbsp;|&nbsp;
+          <strong>Heat #</strong>{{ h.heat_number }}
+          {% if h.start_time %}&nbsp;|&nbsp;<strong>Inicio:</strong> {{ h.start_time }}{% endif %}
+        </div>
+        <div class="rf-card__body">
+          <table class="rf-table">
+            <thead>
+              <tr>
+                <th>Lane</th>
+                <th>Atleta/Equipo</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% if h.assignments %}
+                {% for a in h.assignments %}
+                  {% if a.lane %}
+                    <tr>
+                      <td>{{ a.lane }}</td>
+                      <td>
+                        {% if a.team %}{{ a.team.name }}{% elif a.athlete_entry %}{{ a.athlete_entry }}{% else %}—{% endif %}
+                      </td>
+                    </tr>
+                  {% endif %}
+                {% endfor %}
+              {% else %}
+                <tr><td colspan="2" class="muted">Sin asignaciones.</td></tr>
+              {% endif %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="rf-spacer"></div>
+    {% endfor %}
+  {% else %}
+    <p class="muted">No hay heats definidos para este workout.</p>
+  {% endif %}
+
+  <div class="rf-spacer"></div>
+  <a class="rf-btn rf-btn--ghost" href="{% url 'event_detail' event.slug %}">Volver al evento</a>
+{% endblock %}

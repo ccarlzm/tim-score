@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Live — W{{ workout.order }}{% endblock %}
+{% block content %}
+  <h1>Live · W{{ workout.order }} — {{ workout.name }} <span class="badge-live">LIVE</span></h1>
+  <div class="rf-spacer"></div>
+  <table class="rf-table">
+    <thead><tr><th>#</th><th>Atleta/Equipo</th><th>Puntaje</th></tr></thead>
+    <tbody>
+      {% for r in rows %}
+        <tr><td>{{ forloop.counter }}</td><td>{{ r.name }}</td><td>{{ r.score }}</td></tr>
+      {% empty %}
+        <tr><td colspan="3">Sin datos.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

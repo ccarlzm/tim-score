@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block title %}Envío realizado{% endblock %}
+{% block content %}
+  <h1>¡Datos enviados!</h1>
+  <p class="muted">El registro de este heat quedó guardado.</p>
+  <div class="rf-spacer"></div>
+  <a class="rf-btn rf-btn--ghost" href="{% url 'judging_dashboard' event_slug=event.slug %}">Volver al panel</a>
+{% endblock %}

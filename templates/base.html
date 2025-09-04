@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>TIM-SCORE — {% block title %}{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'app.css' %}">
+</head>
+<body class="rf-body">
+  <header class="rf-header">
+    <div class="rf-container rf-header__inner">
+      <a class="rf-brand" href="/">TIM-SCORE</a>
+      <nav class="rf-nav">
+        <a href="/events/">Eventos</a>
+        {% if user.is_authenticated %}
+          <a href="/accounts/profile/">Mi perfil</a>
+          <a href="/accounts/logout/">Salir</a>
+        {% else %}
+          <a href="/accounts/login/">Ingresar</a>
+        {% endif %}
+      </nav>
+    </div>
+  </header>
+
+  {% if messages %}
+    <div class="rf-container">
+      <div class="rf-alerts">
+        {% for m in messages %}
+          <div class="rf-alert rf-alert--{{ m.tags|default:'info' }}">{{ m }}</div>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+
+  <main class="rf-container rf-main">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="rf-footer">
+    <div class="rf-container rf-footer__inner">
+      <div class="rf-footer__brand">TIM-SCORE</div>
+      <div class="rf-footer__copy">© {% now "Y" %} TIM-SCORE</div>
+    </div>
+  </footer>
+</body>
+</html>

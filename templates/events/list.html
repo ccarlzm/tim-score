@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Eventos{% endblock %}
+
+{% block content %}
+  <h1 class="rf-h1">Eventos</h1>
+
+  {% if events %}
+    <div class="rf-grid">
+      {% for e in events %}
+        <div class="rf-card">
+          <div class="rf-card__header">
+            <strong>{{ e.name }}</strong>
+          </div>
+          <div class="rf-card__body">
+            <p class="muted">
+              {{ e.location }}
+              {% if e.start_date %} · {{ e.start_date }}{% endif %}
+              {% if e.end_date %} – {{ e.end_date }}{% endif %}
+            </p>
+            <p>{{ e.description|truncatechars:160 }}</p>
+          </div>
+          <div class="rf-card__footer">
+            <a class="rf-btn rf-btn--primary" href="{% url 'event_detail' e.slug %}">Ver evento</a>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="muted">No hay eventos disponibles.</p>
+  {% endif %}
+{% endblock %}

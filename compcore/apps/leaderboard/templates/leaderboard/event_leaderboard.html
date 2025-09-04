@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mx-auto px-4">
+  <h1 class="text-2xl font-bold mb-6">
+    Leaderboard — {{ event.name }}
+  </h1>
+
+  {% for table in division_tables %}
+    <div class="mb-10">
+      <h2 class="text-xl font-semibold mb-3">
+        División: {{ table.division.name }}
+      </h2>
+
+      <table class="min-w-full border border-gray-300 text-sm">
+        <thead class="bg-gray-200">
+          <tr>
+            <th class="px-2 py-1 border">Equipo / Atleta</th>
+            {% for w in table.workouts %}
+              <th class="px-2 py-1 border">W{{ w.order }}</th>
+            {% endfor %}
+            <th class="px-2 py-1 border">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in table.rows %}
+            <tr class="hover:bg-gray-100">
+              <td class="px-2 py-1 border">{{ row.name }}</td>
+              {% for w in table.workouts %}
+                <td class="px-2 py-1 border text-center">
+                  {{ row.workouts.w.order|default:"-" }}
+                </td>
+              {% endfor %}
+              <td class="px-2 py-1 border font-bold text-center">
+                {{ row.total }}
+              </td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="{{ table.workouts|length|add:'2' }}" class="px-2 py-2 text-center text-gray-500">
+                No hay resultados aún para esta división.
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}

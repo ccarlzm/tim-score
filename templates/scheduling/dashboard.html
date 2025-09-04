@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Cronograma{% endblock %}
+{% block content %}
+  <h1>Cronograma</h1>
+  <div class="rf-spacer"></div>
+  <table class="rf-table">
+    <thead><tr><th>WOD</th><th>División</th><th>Heat</th><th>Inicio</th></tr></thead>
+    <tbody>
+      {% for h in heats %}
+        <tr>
+          <td>W{{ h.workout.order }}</td>
+          <td>{{ h.division.name }}</td>
+          <td>{{ h.heat_number }}</td>
+          <td>{% if h.start_time %}{{ h.start_time }}{% else %}—{% endif %}</td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="4">Aún no hay cronograma.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

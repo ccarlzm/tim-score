@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{{ event.name }}{% endblock %}
+
+{% block content %}
+<div class="rf-container">
+
+  <!-- Encabezado -->
+  <div class="rf-header">
+    <h1 class="rf-h1">{{ event.name }}</h1>
+    <p class="muted">
+      {% if event.location %}{{ event.location }}{% endif %}
+      {% if event.start_date %} · {{ event.start_date }}{% endif %}
+      {% if event.end_date %} – {{ event.end_date }}{% endif %}
+    </p>
+  </div>
+
+  <!-- Acciones -->
+  <div class="rf-actions" style="gap:8px; margin:12px 0; position:relative;">
+    <a href="#wods" class="rf-btn rf-btn--primary">Ver WODs</a>
+    <a class="rf-btn rf-btn--secondary" href="{% url 'public_results' event.slug %}">Resultados</a>
+    {% if is_judge %}
+      <a class="rf-btn rf-btn--primary" href="{% url 'event_judges' event.slug %}">Jueces</a>
+    {% endif %}
+    <a class="rf-btn rf-btn--ghost" href="{% url 'event_leaderboard' event.slug %}">Leaderboard</a>
+
+    {% if workouts %}
+      <button id="heatsMenuBtn" type="button" class="rf-btn rf-btn--primary" aria-haspopup="true" aria-expanded="false">
+        Heats
+      </button>
+      <div id="heatsMenu"
+           class="rf-card"
+           style="position:absolute; top:44px; left:0; display:none; min-width:240px; z-index:10;">
+        <ul class="rf-list">
+          {% for w in workouts %}
+            <li>
+              <a href="{% url 'public_heats' event.slug w.order %}">WOD {{ w.order }} — {{ w.name }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+      <script>
+        (function(){
+          const btn = document.getElementById('heatsMenuBtn');
+          const menu = document.getElementById('heatsMenu');
+          if (btn && menu) {
+            btn.addEventListener('click', function(){
+              const vis = menu.style.display === 'block';
+              menu.style.display = vis ? 'none' : 'block';
+              btn.setAttribute('aria-expanded', String(!vis));
+            });
+            document.addEventListener('click', function(e){
+              if (!menu.contains(e.target) && !btn.contains(e.target)) {
+                menu.style.display = 'none';
+                btn.setAttribute('aria-expanded', 'false');
+              }
+            });
+          }
+        })();
+      </script>
+    {% endif %}
+  </div>
+
+  <!-- Divisiones (restaurado como V10, con detalles en español) -->
+  <section style="margin:16px 0;">
+    <h2 class="rf-h2">Divisiones</h2>
+    {% if divisions %}
+      <div class="rf-grid rf-grid--2">
+        {% for d in divisions %}
+          <article class="rf-card">
+            <h3 class="rf-h3">{{ d.name }}</h3>
+
+            {% if d.description %}
+              <p>{{ d.description }}</p>
+            {% else %}
+              <p class="muted">Sin descripción.</p>
+            {% endif %}
+
+            <ul class="rf-list">
+              <li><strong>Género:</strong> {{ d.get_gender_display|default:d.gender|default:"N/A" }}</li>
+              <li><strong>Tamaño del equipo:</strong> {{ d.team_size|default:"N/A" }}</li>
+              <li><strong>Cuota masculina:</strong> {{ d.male_quota|default:"N/A" }}</li>
+              <li><strong>Cuota femenina:</strong> {{ d.female_quota|default:"N/A" }}</li>
+              <li><strong>Edad mínima:</strong> {% if d.min_age %}{{ d.min_age }}{% else %}N/A{% endif %}</li>
+              <li><strong>Edad máxima:</strong> {% if d.max_age %}{{ d.max_age }}{% else %}N/A{% endif %}</li>
+            </ul>
+          </article>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="muted">Aún no hay divisiones publicadas.</p>
+    {% endif %}
+  </section>
+
+  <!-- WODs publicados -->
+  <section id="wods" style="margin:16px 0;">
+    <h2 class="rf-h2">Workouts (publicados)</h2>
+    {% if workouts %}
+      <div class="rf-grid rf-grid--2">
+        {% for w in workouts %}
+          <article class="rf-card">
+            <h3 class="rf-h3">WOD {{ w.order }} — {{ w.name }}</h3>
+            {% if w.description %}<p>{{ w.description }}</p>{% endif %}
+            {% if w.published_heats %}
+              <p class="muted">Heats publicados: {{ w.published_heats|length }}</p>
+              <a class="rf-btn rf-btn--ghost" href="{% url 'public_heats' event.slug w.order %}">Ver Heats</a>
+            {% else %}
+              <p class="muted">Sin heats publicados.</p>
+            {% endif %}
+          </article>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="muted">Aún no hay workouts publicados.</p>
+    {% endif %}
+  </section>
+
+</div>
+{% endblock %}

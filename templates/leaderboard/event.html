@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Leaderboard — {{ event_display_name|default:event.slug }}{% endblock %}
+
+{% block content %}
+<div class="card">
+  <h1 class="title" style="font-size:20px;margin:0;">
+    Leaderboard — {{ event_display_name|default:event.slug }}
+  </h1>
+  <p class="muted" style="margin-top:8px;">Resumen del evento.</p>
+</div>
+
+<div class="grid" style="margin-top:16px">
+  <div class="card">
+    <h2 class="title">Divisiones</h2>
+    <ul style="margin:8px 0 0 18px; padding:0; list-style:disc;">
+      {% for d in divisions %}
+        <li>{{ d.name }}{% if d.gender %} ({{ d.gender }}){% endif %}</li>
+      {% empty %}
+        <li class="muted">No hay divisiones.</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2 class="title">Workouts</h2>
+    <ul style="margin:8px 0 0 18px; padding:0; list-style:disc;">
+      {% for w in workouts %}
+        <li>WOD {{ w.order }}{% if w.title %} — {{ w.title }}{% endif %}</li>
+      {% empty %}
+        <li class="muted">No hay workouts.</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endblock %}

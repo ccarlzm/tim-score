@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Heat #{{ heat.heat_number }} · W{{ workout.order }} · {{ event.name }}{% endblock %}
+
+{% block content %}
+  <h1 class="rf-h1">{{ event.name }} — W{{ workout.order }}: {{ workout.name }}</h1>
+  <p class="muted">
+    División: {{ heat.division.name }} · Heat #{{ heat.heat_number }} · Carriles: {{ heat.lane_count }}
+  </p>
+
+  <div class="rf-actions">
+    <a class="rf-btn rf-btn--ghost" href="{% url 'public_heats' event.slug workout.order %}">Volver a heats de W{{ workout.order }}</a>
+    <a class="rf-btn rf-btn--ghost" href="{% url 'event_detail' event.slug %}">Volver al evento</a>
+  </div>
+
+  <div class="rf-spacer"></div>
+
+  {% if rows %}
+    <table class="rf-table">
+      <thead>
+        <tr>
+          <th>Carril</th>
+          <th>Integrante</th>
+          <th>Notas</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in rows %}
+          <tr>
+            <td>{{ r.lane }}</td>
+            <td>{{ r.name }}</td>
+            <td>
+              {% if r.locked %}<span class="muted">🔒 fijo</span>{% endif %}
+              {% if r.is_manual %}<span class="muted"> · manual</span>{% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p class="muted">Este heat no tiene integrantes asignados.</p>
+  {% endif %}
+{% endblock %}

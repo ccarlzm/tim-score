@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Leaderboard — {{ event_display_name|default:event.slug }}{% endblock %}
+
+{% block content %}
+
+<style>
+  /* Mejora visual sin tocar tu esquema global */
+  .lb-wrap { margin-top: 16px; }
+  .lb-table-wrap { overflow:auto; border-radius:12px; border:1px solid #e5e7eb; }
+  .lb-table { width:100%; border-collapse:separate; border-spacing:0; font-size:14px; }
+  .lb-table th, .lb-table td { padding:10px 12px; border-bottom:1px solid #f1f5f9; }
+  .lb-table thead th {
+    position: sticky; top: 0; z-index: 1;
+    background: #f8fafc; /* header sticky */
+    text-align:center; font-weight:600; color:#0f172a; /* slate-900 */
+  }
+  .lb-table tbody tr:nth-child(odd){ background:#ffffff; }
+  .lb-table tbody tr:nth-child(even){ background:#f8fafc; }
+  .lb-table tbody tr:hover{ background:#eef2ff; } /* indigo-50 */
+  .lb-name { font-weight:600; color:#0f172a; white-space:nowrap; }
+  .lb-num { text-align:center; font-variant-numeric: tabular-nums; }
+  .lb-total { text-align:center; font-weight:700; color:#111827; } /* gray-900 */
+  .lb-total-col { background:#fff7ed; } /* amber-50 */
+  .lb-rank-1 td { background:#ecfccb !important; } /* lime-100 al líder */
+  .lb-caption { font-size:12px; color:#64748b; margin-top:6px; }
+  .pill { background:#111827; color:#fff; border-radius:999px; padding:2px 8px; font-size:12px; }
+  .title { font-weight:700; }
+  .muted { color:#64748b; }
+  .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:16px; }
+  .card { background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:12px; }
+  .row { display:flex; gap:12px; }
+</style>
+
+<div class="card">
+  <div class="row" style="justify-content:space-between;align-items:center;">
+    <h1 class="title" style="font-size:20px;margin:0;">
+      Leaderboard — {{ event_display_name|default:event.slug }}
+    </h1>
+    <span class="pill">V3</span>
+  </div>
+  <p class="muted" style="margin-top:8px;">
+    Divisiones y WODs del evento. Usa los enlaces para ver el live por WOD.
+  </p>
+</div>
+
+<div class="grid lb-wrap">
+
+  <div class="card">
+    <h2 class="title">Workouts</h2>
+    <ul style="margin:8px 0 0 18px; padding:0; list-style:disc;">
+      {% for w in workouts %}
+        <li>
+          W{{ w.order }} — {{ w.title|default:w.name }}
+          {% if w.live_url %} · <a href="{{ w.live_url }}">ver live</a>{% endif %}
+        </li>
+      {% empty %}
+        <li class="muted">No hay workouts definidos.</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2 class="title">Divisiones</h2>
+    <ul style="margin:8px 0 0 18px; padding:0; list-style:disc;">
+      {% for d in divisions %}
+        <li>{{ d.name }}</li>
+      {% empty %}
+        <li class="muted">No hay divisiones definidas.</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2 class="title">Resumen</h2>
+    <div class="muted">
+      Total de WODs: {{ workouts|length }}<br />
+      Total de WODs + 3: {{ workouts|length|add:3 }}
+    </div>
+  </div>
+
+</div>
+
+{% for table in division_tables %}
+  <div class="card" style="margin-top:16px;">
+    <div class="row" style="justify-content:space-between;align-items:center;">
+      <h2 class="title" style="margin-bottom:8px;">División: {{ table.division.name }}</h2>
+      <div class="lb-caption">Puntaje: 1.º = 100, siguiente(s) = 100 − ceil(100/N)</div>
+    </div>
+    <div class="lb-table-wrap">
+      <table class="lb-table">
+        <thead>
+          <tr>
+            <th style="text-align:left; min-width:220px;">Equipo / Atleta</th>
+            {% for w in table.columns %}
+              <th>W{{ w.order }}</th>
+            {% endfor %}
+            <th class="lb-total-col">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in table.rows %}
+            <tr class="{% if forloop.first %}lb-rank-1{% endif %}">
+              <td class="lb-name">{{ row.name }}</td>
+              {% for val in row.cells %}
+                <td class="lb-num">
+                  {% if val == "-" %}-{% else %}{{ val }}{% endif %}
+                </td>
+              {% endfor %}
+              <td class="lb-total lb-total-col">{{ row.total }}</td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="{{ table.columns|length|add:2 }}" class="muted" style="text-align:center;">
+                Aún no hay resultados para esta división.
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endfor %}
+
+{% endblock %}

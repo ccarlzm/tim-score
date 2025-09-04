@@ -1,0 +1,240 @@
+{% extends "base.html" %}
+{% block title %}Resultados — W{{ workout.order }} Heat #{{ heat.heat_number }}{% endblock %}
+
+{% block content %}
+<h1 class="rf-h1">Resultados — {{ event.name }} · W{{ workout.order }} · {{ division.name }} · Heat #{{ heat.heat_number }}</h1>
+
+<div class="rf-card">
+  <style>
+    /* Tamaño cómodo para los campos principales */
+    .rf-form input[name$="-time_display"],
+    .rf-form input[name$="-reps"],
+    .rf-form input[name$="-weight_kg"],
+    .rf-form input[name$="-tiebreak_display"] {
+      font-size: 1.2rem;
+      height: 44px;
+      padding: 6px 10px;
+      text-align: center;
+      font-variant-numeric: tabular-nums;
+    }
+    .rf-error{color:#b91c1c;font-size:12px;margin-top:4px}
+    .muted{color:#6b7280}
+  </style>
+
+  <form method="post" class="rf-form">
+    {% csrf_token %}
+    {{ formset.management_form }}
+
+    {% with scoring=workout.scoring %}
+    <table class="rf-table" style="width:100%">
+      <thead>
+        <tr>
+          <th>Lane</th>
+          <th>Atleta / Equipo</th>
+
+          {% if scoring == 'TIME' %}
+            <th>Tiempo</th>
+          {% endif %}
+
+          {# Mostrar REPS también si el scoring es POINTS/puntos #}
+          {% if scoring == 'REPS' or scoring|upper == 'POINTS' %}
+            <th>Reps</th>
+          {% endif %}
+
+          {% if scoring == 'WEIGHT' %}
+            <th>Peso (kg)</th>
+          {% endif %}
+
+          <th>Penal.</th>
+
+          {% if scoring == 'TIME' %}
+            <th>Tie-break</th>
+          {% endif %}
+
+          <th>Estado</th>
+          <th>Juez</th>
+          <th>Notas</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {# --- Preferimos 'rows' porque contiene la asignación del lane (team/athlete) --- #}
+        {% if rows %}
+          {% for row in rows %}
+            {% with form=row.form t=row.team a=row.athlete_entry ln=row.lane %}
+              {{ form.id }}
+              {% for hidden in form.hidden_fields %}{{ hidden }}{% endfor %}
+
+              <tr>
+                <!-- Lane -->
+                <td style="white-space:nowrap">
+                  {% if form.lane %}{{ form.lane }}{% else %}#{{ ln }}{% endif %}
+                  {% if form.lane and form.lane.errors %}<div class="rf-error">{{ form.lane.errors|join:", " }}</div>{% endif %}
+                </td>
+
+                <!-- Nombre participante desde asignación (si aún no hay resultado guardado) -->
+                <td>
+                  {% if t %}Equipo: {{ t.name }}
+                  {% elif a %}{{ a }}
+                  {% elif form.instance.team %}Equipo: {{ form.instance.team.name }}
+                  {% elif form.instance.athlete_entry %}{{ form.instance.athlete_entry }}
+                  {% else %}—{% endif %}
+                </td>
+
+                <!-- Tiempo -->
+                {% if scoring == 'TIME' %}
+                  <td>
+                    {{ form.time_display }}
+                    {% if form.time_display.errors %}<div class="rf-error">{{ form.time_display.errors|join:", " }}</div>{% endif %}
+                  </td>
+                {% else %}
+                  {{ form.time_display.as_hidden }}
+                {% endif %}
+
+                <!-- Reps (también para POINTS) -->
+                {% if scoring == 'REPS' or scoring|upper == 'POINTS' %}
+                  <td>
+                    {{ form.reps }}
+                    {% if form.reps.errors %}<div class="rf-error">{{ form.reps.errors|join:", " }}</div>{% endif %}
+                  </td>
+                {% else %}
+                  {{ form.reps.as_hidden }}
+                {% endif %}
+
+                <!-- Peso -->
+                {% if scoring == 'WEIGHT' %}
+                  <td>
+                    {{ form.weight_kg }}
+                    {% if form.weight_kg.errors %}<div class="rf-error">{{ form.weight_kg.errors|join:", " }}</div>{% endif %}
+                  </td>
+                {% else %}
+                  {{ form.weight_kg.as_hidden }}
+                {% endif %}
+
+                <!-- Penalidades siempre visible -->
+                <td>
+                  {{ form.penalties }}
+                  {% if form.penalties.errors %}<div class="rf-error">{{ form.penalties.errors|join:", " }}</div>{% endif %}
+                </td>
+
+                <!-- Tie-break solo TIME -->
+                {% if scoring == 'TIME' %}
+                  <td>
+                    {{ form.tiebreak_display }}
+                    {% if form.tiebreak_display.errors %}<div class="rf-error">{{ form.tiebreak_display.errors|join:", " }}</div>{% endif %}
+                  </td>
+                {% else %}
+                  {{ form.tiebreak_display.as_hidden }}
+                {% endif %}
+
+                <!-- Estado, Juez, Notas -->
+                <td>
+                  {{ form.status }}
+                  {% if form.status.errors %}<div class="rf-error">{{ form.status.errors|join:", " }}</div>{% endif %}
+                </td>
+                <td>
+                  {{ form.judge_name }}
+                  {% if form.judge_name.errors %}<div class="rf-error">{{ form.judge_name.errors|join:", " }}</div>{% endif %}
+                </td>
+                <td>
+                  {{ form.notes }}
+                  {% if form.notes.errors %}<div class="rf-error">{{ form.notes.errors|join:", " }}</div>{% endif %}
+                </td>
+              </tr>
+
+              {% if form.non_field_errors %}
+                <tr><td colspan="10"><div class="rf-error">{{ form.non_field_errors|join:", " }}</div></td></tr>
+              {% endif %}
+            {% endwith %}
+          {% endfor %}
+
+        {# --- Fallback: si no hay 'rows', usamos formset.forms (comportamiento previo) --- #}
+        {% else %}
+          {% for form in formset.forms %}
+            {{ form.id }}
+            {% for hidden in form.hidden_fields %}{{ hidden }}{% endfor %}
+
+            <tr>
+              <td style="white-space:nowrap">
+                {% if form.lane %}{{ form.lane }}{% else %}#{{ form.instance.lane }}{% endif %}
+                {% if form.lane and form.lane.errors %}<div class="rf-error">{{ form.lane.errors|join:", " }}</div>{% endif %}
+              </td>
+
+              <td>
+                {% if form.instance.team %}Equipo: {{ form.instance.team.name }}
+                {% elif form.instance.athlete_entry %}{{ form.instance.athlete_entry }}
+                {% else %}—{% endif %}
+              </td>
+
+              {% if scoring == 'TIME' %}
+                <td>
+                  {{ form.time_display }}
+                  {% if form.time_display.errors %}<div class="rf-error">{{ form.time_display.errors|join:", " }}</div>{% endif %}
+                </td>
+              {% else %}
+                {{ form.time_display.as_hidden }}
+              {% endif %}
+
+              {% if scoring == 'REPS' or scoring|upper == 'POINTS' %}
+                <td>
+                  {{ form.reps }}
+                  {% if form.reps.errors %}<div class="rf-error">{{ form.reps.errors|join:", " }}</div>{% endif %}
+                </td>
+              {% else %}
+                {{ form.reps.as_hidden }}
+              {% endif %}
+
+              {% if scoring == 'WEIGHT' %}
+                <td>
+                  {{ form.weight_kg }}
+                  {% if form.weight_kg.errors %}<div class="rf-error">{{ form.weight_kg.errors|join:", " }}</div>{% endif %}
+                </td>
+              {% else %}
+                {{ form.weight_kg.as_hidden }}
+              {% endif %}
+
+              <td>
+                {{ form.penalties }}
+                {% if form.penalties.errors %}<div class="rf-error">{{ form.penalties.errors|join:", " }}</div>{% endif %}
+              </td>
+
+              {% if scoring == 'TIME' %}
+                <td>
+                  {{ form.tiebreak_display }}
+                  {% if form.tiebreak_display.errors %}<div class="rf-error">{{ form.tiebreak_display.errors|join:", " }}</div>{% endif %}
+                </td>
+              {% else %}
+                {{ form.tiebreak_display.as_hidden }}
+              {% endif %}
+
+              <td>
+                {{ form.status }}
+                {% if form.status.errors %}<div class="rf-error">{{ form.status.errors|join:", " }}</div>{% endif %}
+              </td>
+              <td>
+                {{ form.judge_name }}
+                {% if form.judge_name.errors %}<div class="rf-error">{{ form.judge_name.errors|join:", " }}</div>{% endif %}
+              </td>
+              <td>
+                {{ form.notes }}
+                {% if form.notes.errors %}<div class="rf-error">{{ form.notes.errors|join:", " }}</div>{% endif %}
+              </td>
+            </tr>
+
+            {% if form.non_field_errors %}
+              <tr><td colspan="10"><div class="rf-error">{{ form.non_field_errors|join:", " }}</div></td></tr>
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      </tbody>
+    </table>
+
+    <div class="rf-actions" style="margin-top:12px;">
+      <a class="rf-btn rf-btn--ghost" href="{% url 'event_judges' event.slug %}">Volver</a>
+      <button type="submit" class="rf-btn rf-btn--primary">Guardar resultados</button>
+    </div>
+
+    {% endwith %}
+  </form>
+</div>
+{% endblock %}

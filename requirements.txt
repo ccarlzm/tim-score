@@ -1,0 +1,8 @@
+Django==5.0.6
+python-dotenv==1.0.1
+gunicorn==22.0.0
+# Si más adelante usas MySQL o Stripe, agrega:
+# mysqlclient==2.2.4
+# stripe==7.13.0
+# Si vas a exponer APIs con DRF:
+# djangorestframework==3.15.2

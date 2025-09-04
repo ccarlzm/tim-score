@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block title %}Jueces · {{ event.name }}{% endblock %}
+
+{% block content %}
+<h1 class="rf-h1">Zona de Jueces — {{ event.name }}</h1>
+<p class="muted">Acceso restringido a jueces y staff.</p>
+
+<div class="rf-grid rf-grid--gap">
+  <div class="rf-card">
+    <div class="rf-card__header"><strong>1) Selecciona División</strong></div>
+    <div class="rf-card__body">
+      <form method="get" class="rf-form">
+        <select name="division" class="rf-select" onchange="this.form.submit()">
+          <option value="">— Todas —</option>
+          {% for d in divisions %}
+            <option value="{{ d.id }}" {% if current_division and d.id == current_division.id %}selected{% endif %}>{{ d.name }}</option>
+          {% endfor %}
+        </select>
+      </form>
+    </div>
+  </div>
+
+  <div class="rf-card">
+    <div class="rf-card__header"><strong>2) Selecciona Workout</strong></div>
+    <div class="rf-card__body">
+      <form method="get" class="rf-form">
+        <input type="hidden" name="division" value="{{ current_division.id|default_if_none:'' }}">
+        <select name="workout" class="rf-select" onchange="this.form.submit()">
+          <option value="">— Selecciona —</option>
+          {% for w in workouts %}
+            <option value="{{ w.order }}" {% if current_workout and w.order == current_workout.order %}selected{% endif %}>W{{ w.order }} · {{ w.name }}</option>
+          {% endfor %}
+        </select>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% if current_workout %}
+  <div class="rf-card" style="margin-top:12px;">
+    <div class="rf-card__header"><strong>3) Heats de {{ current_workout.name }}{% if current_division %} — {{ current_division.name }}{% endif %}</strong></div>
+    <div class="rf-card__body">
+      {% if heats %}
+        <table class="rf-table rf-table--compact">
+          <thead>
+            <tr>
+              <th>Heat</th>
+              <th>División</th>
+              <th>Inicio</th>
+              <th>Lanes</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for h in heats %}
+              <tr>
+                <td>#{{ h.heat_number }}</td>
+                <td>{{ h.division.name }}</td>
+                <td>{{ h.start_time|default:"—" }}</td>
+                <td>{{ h.lane_count }}</td>
+                <td>
+                  <a class="rf-btn rf-btn--primary"
+                     href="{% url 'judging:judging_heat_results' event.slug current_workout.order h.division.id h.heat_number %}">
+                     Cargar resultados
+                  </a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <p class="muted">No hay heats configurados para esta selección.</p>
+      {% endif %}
+    </div>
+  </div>
+{% endif %}
+
+<div class="rf-actions" style="margin-top:12px;">
+  <a class="rf-btn rf-btn--ghost" href="{% url 'event_detail' event.slug %}">Volver al evento</a>
+</div>
+{% endblock %}

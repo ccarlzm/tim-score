@@ -1,0 +1,710 @@
+{
+  "models": {
+    "admin.LogEntry": [
+      {
+        "name": "id",
+        "type": "AutoField"
+      },
+      {
+        "name": "action_time",
+        "type": "DateTimeField"
+      },
+      {
+        "name": "user",
+        "type": "ForeignKey"
+      },
+      {
+        "name": "content_type",
+        "type": "ForeignKey"
+      },
+      {
+        "name": "object_id",
+        "type": "TextField"
+      },
+      {
+        "name": "object_repr",
+        "type": "CharField"
+      },
+      {
+        "name": "action_flag",
+        "type": "PositiveSmallIntegerField"
+      },
+      {
+        "name": "change_message",
+        "type": "TextField"
+      }
+    ],
+    "auth.Permission": [
+      {
+        "name": "group",
+        "type": "ManyToManyField"
+      },
+      {
+        "name": "user",
+        "type": "ManyToManyField"
+      },
+      {
+        "name": "id",
+        "type": "AutoField"
+      },
+      {
+        "name": "name",
+        "type": "CharField"
+      },
+      {
+        "name": "content_type",
+        "type": "ForeignKey"
+      },
+      {
+        "name": "codename",
+        "type": "CharField"
+      }
+    ],
+    "auth.Group": [
+      {
+        "name": "user",
+        "type": "ManyToManyField"
+      },
+      {
+        "name": "id",
+        "type": "AutoField"
+      },
+      {
+        "name": "name",
+        "type": "CharField"
+      },
+      {
+        "name": "permissions",
+        "type": "ManyToManyField"
+      }
+    ],
+    "auth.User": [
+      {
+        "name": "logentry",
+        "type": "ForeignKey"
+      },
+      {
+        "name": "profile",
+        "type": "OneToOneField"
+      },
+      {
+        "name": "captain_teams",
+        "type": "ForeignKey"
+      },
+      {
+        "name": "athleteentry",
+        "type": "ForeignKey"
+      },
+      {
+        "name": "id",
+        "type": "AutoField"
+      },
+      {
+        "name": "password",
+        "type": "CharField"
+      },
+      {
+        "name": "last_login",
+        "type": "DateTimeField"
+      },
+      {
+        "name": "is_superuser",
+        "type": "BooleanField"
+      },
+      {
+        "name": "username",
+        "type": "CharField"
+      },
+      {
+        "name": "first_name",
+        "type": "CharField"
+      },
+      {
+        "name": "last_name",
+        "type": "CharField"
+      },
+      {
+        "name": "email",
+        "type": "CharField"
+      },
+      {
+        "name": "is_staff",
+        "type": "BooleanField"
+      },
+      {
+        "name": "is_active",
+        "type": "BooleanField"
+      },
+      {
+        "name": "date_joined",
+        "type": "DateTimeField"
+      },
+      {
+        "name": "groups",
+        "type": "ManyToManyField"
+      },
+      {
+        "name": "user_permissions",
+        "type": "ManyToManyField"
+      }
+    ],
+    "contenttypes.ContentType": [
+      {
+        "name": "logentry",
+        "type": "ForeignKey"
+      },
+      {
+        "name": "permission",
+        "type": "ForeignKey"
+      },
+      {
+        "name": "id",
+        "type": "AutoField"
+      },
+      {
+        "name": "app_label",
+        "type": "CharField"
+      },
+      {
+        "name": "model",
+        "type": "CharField"
+      }
+    ],
+    "sessions.Session": [
+      {
+        "name": "session_key",
+        "type": "CharField"
+      },
+      {
+        "name": "session_data",
+        "type": "TextField"
+      },
+      {
+        "name": "expire_date",
+        "type": "DateTimeField"
+      }
+    ],
+    "accounts.Profile": [
+      {
+        "name": "id",
+        "type": "BigAutoField"
+      },
+      {
+        "name": "user",
+        "type": "OneToOneField"
+      },
+      {
+        "name": "gym",
+        "type": "CharField"
+      },
+      {
+        "name": "phone",
+        "type": "CharField"
+      },
+      {
+        "name": "id_document",
+        "type": "CharField"
+      },
+      {
+        "name": "date_of_birth",
+        "type": "DateField"
+      },
+      {
+        "name": "sex",
+        "type": "CharField"
+      }
+    ],
+    "events.Event": [
+      {
+        "name": "division",
+        "type": "ForeignKey"
+      },
+      {
+        "name": "workout",
+        "type": "ForeignKey"
+      },
+      {
+        "name": "team",
+        "type": "ForeignKey"
+      },
+      {
+        "name": "athleteentry",
+        "type": "ForeignKey"
+      },
+      {
+        "name": "id",
+        "type": "BigAutoField"
+      },
+      {
+        "name": "name",
+        "type": "CharField"
+      },
+      {
+        "name": "slug",
+        "type": "SlugField"
+      },
+      {
+        "name": "status",
+        "type": "CharField"
+      },
+      {
+        "name": "start_date",
+        "type": "DateField"
+      },
+      {
+        "name": "end_date",
+        "type": "DateField"
+      },
+      {
+        "name": "registration_open",
+        "type": "BooleanField"
+      },
+      {
+        "name": "registration_deadline",
+        "type": "DateField"
+      }
+    ],
+    "events.Division": [
+      {
+        "name": "workoutheat",
+        "type": "ForeignKey"
+      },
+      {
+        "name": "team",
+        "type": "ForeignKey"
+      },
+      {
+        "name": "athleteentry",
+        "type": "ForeignKey"
+      },
+      {
+        "name": "id",
+        "type": "BigAutoField"
+      },
+      {
+        "name": "event",
+        "type": "ForeignKey"
+      },
+      {
+        "name": "name",
+        "type": "CharField"
+      },
+      {
+        "name": "team_size",
+        "type": "PositiveIntegerField"
+      },
+      {
+        "name": "capacity_individuals",
+        "type": "PositiveIntegerField"
+      },
+      {
+        "name": "capacity_teams",
+        "type": "PositiveIntegerField"
+      },
+      {
+        "name": "male_quota",
+        "type": "PositiveIntegerField"
+      },
+      {
+        "name": "female_quota",
+        "type": "PositiveIntegerField"
+      },
+      {
+        "name": "min_age",
+        "type": "PositiveIntegerField"
+      },
+      {
+        "name": "max_age",
+        "type": "PositiveIntegerField"
+      },
+      {
+        "name": "heat_capacity",
+        "type": "PositiveIntegerField"
+      }
+    ],
+    "events.Workout": [
+      {
+        "name": "workoutheat",
+        "type": "ForeignKey"
+      },
+      {
+        "name": "scoresubmission",
+        "type": "ForeignKey"
+      },
+      {
+        "name": "id",
+        "type": "BigAutoField"
+      },
+      {
+        "name": "event",
+        "type": "ForeignKey"
+      },
+      {
+        "name": "order",
+        "type": "PositiveIntegerField"
+      },
+      {
+        "name": "title",
+        "type": "CharField"
+      },
+      {
+        "name": "scoring_type",
+        "type": "CharField"
+      },
+      {
+        "name": "cap_time_seconds",
+        "type": "PositiveIntegerField"
+      }
+    ],
+    "events.WorkoutHeat": [
+      {
+        "name": "assignments",
+        "type": "ForeignKey"
+      },
+      {
+        "name": "id",
+        "type": "BigAutoField"
+      },
+      {
+        "name": "workout",
+        "type": "ForeignKey"
+      },
+      {
+        "name": "division",
+        "type": "ForeignKey"
+      },
+      {
+        "name": "heat_number",
+        "type": "PositiveIntegerField"
+      },
+      {
+        "name": "start_time",
+        "type": "DateTimeField"
+      },
+      {
+        "name": "capacity",
+        "type": "PositiveIntegerField"
+      },
+      {
+        "name": "is_published",
+        "type": "BooleanField"
+      },
+      {
+        "name": "published_at",
+        "type": "DateTimeField"
+      }
+    ],
+    "events.HeatAssignment": [
+      {
+        "name": "id",
+        "type": "BigAutoField"
+      },
+      {
+        "name": "heat",
+        "type": "ForeignKey"
+      },
+      {
+        "name": "athlete_entry",
+        "type": "ForeignKey"
+      },
+      {
+        "name": "team",
+        "type": "ForeignKey"
+      },
+      {
+        "name": "lane",
+        "type": "PositiveIntegerField"
+      },
+      {
+        "name": "is_manual",
+        "type": "BooleanField"
+      },
+      {
+        "name": "locked",
+        "type": "BooleanField"
+      },
+      {
+        "name": "created_at",
+        "type": "DateTimeField"
+      }
+    ],
+    "registration.Team": [
+      {
+        "name": "heatassignment",
+        "type": "ForeignKey"
+      },
+      {
+        "name": "athleteentry",
+        "type": "ForeignKey"
+      },
+      {
+        "name": "id",
+        "type": "BigAutoField"
+      },
+      {
+        "name": "event",
+        "type": "ForeignKey"
+      },
+      {
+        "name": "division",
+        "type": "ForeignKey"
+      },
+      {
+        "name": "name",
+        "type": "CharField"
+      },
+      {
+        "name": "captain",
+        "type": "ForeignKey"
+      },
+      {
+        "name": "join_code",
+        "type": "CharField"
+      },
+      {
+        "name": "created_at",
+        "type": "DateTimeField"
+      }
+    ],
+    "registration.AthleteEntry": [
+      {
+        "name": "heatassignment",
+        "type": "ForeignKey"
+      },
+      {
+        "name": "scoresubmission",
+        "type": "ForeignKey"
+      },
+      {
+        "name": "id",
+        "type": "BigAutoField"
+      },
+      {
+        "name": "user",
+        "type": "ForeignKey"
+      },
+      {
+        "name": "event",
+        "type": "ForeignKey"
+      },
+      {
+        "name": "division",
+        "type": "ForeignKey"
+      },
+      {
+        "name": "team",
+        "type": "ForeignKey"
+      },
+      {
+        "name": "paid",
+        "type": "BooleanField"
+      },
+      {
+        "name": "created_at",
+        "type": "DateTimeField"
+      }
+    ],
+    "scoring.ScoreSubmission": [
+      {
+        "name": "id",
+        "type": "BigAutoField"
+      },
+      {
+        "name": "entry",
+        "type": "ForeignKey"
+      },
+      {
+        "name": "workout",
+        "type": "ForeignKey"
+      },
+      {
+        "name": "raw_value",
+        "type": "CharField"
+      },
+      {
+        "name": "tie_break",
+        "type": "CharField"
+      },
+      {
+        "name": "status",
+        "type": "CharField"
+      },
+      {
+        "name": "submitted_at",
+        "type": "DateTimeField"
+      }
+    ]
+  },
+  "urls": [
+    "^\\Z",
+    "^accounts/^login/\\Z",
+    "^accounts/^logout/\\Z",
+    "^accounts/^password/change/\\Z",
+    "^accounts/^password/change/done/\\Z",
+    "^accounts/^password/reset/\\Z",
+    "^accounts/^password/reset/complete/\\Z",
+    "^accounts/^password/reset/confirm/(?P<uidb64>[^/]+)/(?P<token>[^/]+)/\\Z",
+    "^accounts/^password/reset/done/\\Z",
+    "^accounts/^profile/\\Z",
+    "^accounts/^profile/edit/\\Z",
+    "^admin/(?P<url>.*)$",
+    "^admin/^(?P<app_label>auth|accounts|events|registration|scoring)/$",
+    "^admin/^\\Z",
+    "^admin/^accounts/profile/^(?P<object_id>.+)/\\Z",
+    "^admin/^accounts/profile/^(?P<object_id>.+)/change/\\Z",
+    "^admin/^accounts/profile/^(?P<object_id>.+)/delete/\\Z",
+    "^admin/^accounts/profile/^(?P<object_id>.+)/history/\\Z",
+    "^admin/^accounts/profile/^\\Z",
+    "^admin/^accounts/profile/^add/\\Z",
+    "^admin/^auth/group/^(?P<object_id>.+)/\\Z",
+    "^admin/^auth/group/^(?P<object_id>.+)/change/\\Z",
+    "^admin/^auth/group/^(?P<object_id>.+)/delete/\\Z",
+    "^admin/^auth/group/^(?P<object_id>.+)/history/\\Z",
+    "^admin/^auth/group/^\\Z",
+    "^admin/^auth/group/^add/\\Z",
+    "^admin/^auth/user/^(?P<id>[^/]+)/password/\\Z",
+    "^admin/^auth/user/^(?P<object_id>.+)/\\Z",
+    "^admin/^auth/user/^(?P<object_id>.+)/change/\\Z",
+    "^admin/^auth/user/^(?P<object_id>.+)/delete/\\Z",
+    "^admin/^auth/user/^(?P<object_id>.+)/history/\\Z",
+    "^admin/^auth/user/^\\Z",
+    "^admin/^auth/user/^add/\\Z",
+    "^admin/^autocomplete/\\Z",
+    "^admin/^events/division/^(?P<object_id>.+)/\\Z",
+    "^admin/^events/division/^(?P<object_id>.+)/change/\\Z",
+    "^admin/^events/division/^(?P<object_id>.+)/delete/\\Z",
+    "^admin/^events/division/^(?P<object_id>.+)/history/\\Z",
+    "^admin/^events/division/^\\Z",
+    "^admin/^events/division/^add/\\Z",
+    "^admin/^events/event/^(?P<object_id>.+)/\\Z",
+    "^admin/^events/event/^(?P<object_id>.+)/change/\\Z",
+    "^admin/^events/event/^(?P<object_id>.+)/delete/\\Z",
+    "^admin/^events/event/^(?P<object_id>.+)/history/\\Z",
+    "^admin/^events/event/^\\Z",
+    "^admin/^events/event/^add/\\Z",
+    "^admin/^events/heatassignment/^(?P<object_id>.+)/\\Z",
+    "^admin/^events/heatassignment/^(?P<object_id>.+)/change/\\Z",
+    "^admin/^events/heatassignment/^(?P<object_id>.+)/delete/\\Z",
+    "^admin/^events/heatassignment/^(?P<object_id>.+)/history/\\Z",
+    "^admin/^events/heatassignment/^\\Z",
+    "^admin/^events/heatassignment/^add/\\Z",
+    "^admin/^events/workout/^(?P<object_id>.+)/\\Z",
+    "^admin/^events/workout/^(?P<object_id>.+)/change/\\Z",
+    "^admin/^events/workout/^(?P<object_id>.+)/delete/\\Z",
+    "^admin/^events/workout/^(?P<object_id>.+)/history/\\Z",
+    "^admin/^events/workout/^\\Z",
+    "^admin/^events/workout/^add/\\Z",
+    "^admin/^events/workoutheat/^(?P<object_id>.+)/\\Z",
+    "^admin/^events/workoutheat/^(?P<object_id>.+)/change/\\Z",
+    "^admin/^events/workoutheat/^(?P<object_id>.+)/delete/\\Z",
+    "^admin/^events/workoutheat/^(?P<object_id>.+)/history/\\Z",
+    "^admin/^events/workoutheat/^\\Z",
+    "^admin/^events/workoutheat/^add/\\Z",
+    "^admin/^jsi18n/\\Z",
+    "^admin/^login/\\Z",
+    "^admin/^logout/\\Z",
+    "^admin/^password_change/\\Z",
+    "^admin/^password_change/done/\\Z",
+    "^admin/^r/(?P<content_type_id>[0-9]+)/(?P<object_id>.+)/\\Z",
+    "^admin/^registration/athleteentry/^(?P<object_id>.+)/\\Z",
+    "^admin/^registration/athleteentry/^(?P<object_id>.+)/change/\\Z",
+    "^admin/^registration/athleteentry/^(?P<object_id>.+)/delete/\\Z",
+    "^admin/^registration/athleteentry/^(?P<object_id>.+)/history/\\Z",
+    "^admin/^registration/athleteentry/^\\Z",
+    "^admin/^registration/athleteentry/^add/\\Z",
+    "^admin/^registration/team/^(?P<object_id>.+)/\\Z",
+    "^admin/^registration/team/^(?P<object_id>.+)/change/\\Z",
+    "^admin/^registration/team/^(?P<object_id>.+)/delete/\\Z",
+    "^admin/^registration/team/^(?P<object_id>.+)/history/\\Z",
+    "^admin/^registration/team/^\\Z",
+    "^admin/^registration/team/^add/\\Z",
+    "^admin/^scoring/scoresubmission/^(?P<object_id>.+)/\\Z",
+    "^admin/^scoring/scoresubmission/^(?P<object_id>.+)/change/\\Z",
+    "^admin/^scoring/scoresubmission/^(?P<object_id>.+)/delete/\\Z",
+    "^admin/^scoring/scoresubmission/^(?P<object_id>.+)/history/\\Z",
+    "^admin/^scoring/scoresubmission/^\\Z",
+    "^admin/^scoring/scoresubmission/^add/\\Z",
+    "^api/health/\\Z",
+    "^events/^(?P<slug>[-a-zA-Z0-9_]+)/\\Z",
+    "^events/^\\Z",
+    "^heats/(?P<event_slug>[-a-zA-Z0-9_]+)/w(?P<order>[0-9]+)/\\Z",
+    "^judging/^(?P<event_slug>[-a-zA-Z0-9_]+)/w(?P<workout_order>[0-9]+)/d(?P<division_id>[0-9]+)/heat/(?P<heat_number>[0-9]+)/\\Z",
+    "^judging/^(?P<event_slug>[-a-zA-Z0-9_]+)/w(?P<workout_order>[0-9]+)/d(?P<division_id>[0-9]+)/heat/(?P<heat_number>[0-9]+)/lane/(?P<lane>[0-9]+)/\\Z",
+    "^judging/^\\Z",
+    "^leaderboard/(?P<slug>[-a-zA-Z0-9_]+)/\\Z",
+    "^leaderboard/\\Z",
+    "^leaderboard/live/(?P<event_slug>[-a-zA-Z0-9_]+)/w(?P<order>[0-9]+)/\\Z",
+    "^orgs/^\\Z",
+    "^register/(?P<slug>[-a-zA-Z0-9_]+)/\\Z",
+    "^register/(?P<slug>[-a-zA-Z0-9_]+)/success/\\Z",
+    "^register/(?P<slug>[-a-zA-Z0-9_]+)/team/create/\\Z",
+    "^register/(?P<slug>[-a-zA-Z0-9_]+)/team/join/\\Z",
+    "^schedule/^\\Z"
+  ],
+  "templates_scanned": 84,
+  "templates_with_findings": {
+    "templates\\events\\detail.html": {
+      "bad_patterns": [],
+      "suspicious_attrs": [
+        "\\b(?P<var>\\w+)\\.title\\b"
+      ]
+    },
+    "templates\\events\\public_heats.html": {
+      "bad_patterns": [],
+      "suspicious_attrs": [
+        "\\b(?P<var>\\w+)\\.title\\b"
+      ]
+    },
+    "templates\\judging\\dashboard.html": {
+      "bad_patterns": [],
+      "suspicious_attrs": [
+        "\\b(?P<var>\\w+)\\.title\\b"
+      ]
+    },
+    "templates\\judging\\heat_select.html": {
+      "bad_patterns": [],
+      "suspicious_attrs": [
+        "\\b(?P<var>\\w+)\\.title\\b"
+      ]
+    },
+    "templates\\leaderboard\\event.html": {
+      "bad_patterns": [],
+      "suspicious_attrs": [
+        "\\b(?P<var>\\w+)\\.title\\b"
+      ]
+    },
+    "templates\\leaderboard\\event_leaderboard.html": {
+      "bad_patterns": [
+        "\\b3\\|\\s*\\+\\s*[\\w\\.]+\\|\\|length",
+        "\\|\\|\\s*length"
+      ],
+      "suspicious_attrs": [
+        "\\b(?P<var>\\w+)\\.title\\b"
+      ]
+    },
+    "templates\\leaderboard\\live_workout.html": {
+      "bad_patterns": [],
+      "suspicious_attrs": [
+        "\\b(?P<var>\\w+)\\.title\\b"
+      ]
+    },
+    "C:\\Users\\USER\\Downloads\\compcore_skeleton\\compcore_skeleton\\.venv\\Lib\\site-packages\\django\\contrib\\admin\\templates\\admin\\date_hierarchy.html": {
+      "bad_patterns": [],
+      "suspicious_attrs": [
+        "\\b(?P<var>\\w+)\\.title\\b"
+      ]
+    },
+    "C:\\Users\\USER\\Downloads\\compcore_skeleton\\compcore_skeleton\\compcore\\apps\\leaderboard\\templates\\event_leaderboard.html": {
+      "bad_patterns": [],
+      "suspicious_attrs": [
+        "\\b(?P<var>\\w+)\\.title\\b"
+      ]
+    },
+    "C:\\Users\\USER\\Downloads\\compcore_skeleton\\compcore_skeleton\\compcore\\apps\\leaderboard\\templates\\leaderboard\\event_leaderboard.html": {
+      "bad_patterns": [],
+      "suspicious_attrs": [
+        "\\b(?P<var>\\w+)\\.title\\b"
+      ]
+    }
+  }
+}

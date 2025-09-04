@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Proponer Heats{% endblock %}
+{% block content %}
+  <h1>Propuesta de Heats por División</h1>
+  <p class="muted">
+    1) Selecciona <strong>Evento</strong> y pulsa “Cargar divisiones y WODs”.<br>
+    2) Luego elige <strong>División</strong> y <strong>Workout</strong>, y genera la propuesta.<br>
+    W1: secuencial · W2+: ranking (líderes salen de últimos). Las horas se planifican luego en el cronograma.
+  </p>
+
+  <div class="rf-spacer"></div>
+
+  <!-- Paso A: cargar dependientes por GET -->
+  <form method="get" style="margin-bottom:16px">
+    <div class="rf-field">
+      <label for="{{ form.event.id_for_label }}">Evento</label>
+      {{ form.event }}
+    </div>
+    <button class="rf-btn rf-btn--ghost" type="submit">Cargar divisiones y WODs</button>
+  </form>
+
+  <!-- Paso B: cuando ya hay evento seleccionado, mostramos el POST real -->
+  {% if event_selected %}
+    <form method="post">
+      {% csrf_token %}
+      <!-- Mantener el evento ya elegido -->
+      <input type="hidden" name="event" value="{{ form.event.value|default_if_none:'' }}">
+
+      <div class="rf-field">
+        <label for="{{ form.division.id_for_label }}">División</label>
+        {{ form.division }}
+      </div>
+
+      <div class="rf-field">
+        <label for="{{ form.workout.id_for_label }}">Workout</label>
+        {{ form.workout }}
+      </div>
+
+      <div class="rf-field">
+        <label for="{{ form.mode.id_for_label }}">Modo</label>
+        {{ form.mode }} <small class="muted">W1: secuencial · W2+: ranking</small>
+      </div>
+
+      <div class="rf-field">
+        <label for="{{ form.lane_count.id_for_label }}">Carriles (opcional)</label>
+        {{ form.lane_count }}
+      </div>
+
+      <button type="submit" class="rf-btn rf-btn--primary">Generar propuesta</button>
+    </form>
+  {% endif %}
+{% endblock %}

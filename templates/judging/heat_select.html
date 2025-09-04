@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Seleccionar heat{% endblock %}
+{% block content %}
+  <h1>Selecciona un Heat · W{{ workout.order }} — {{ workout.name }}</h1>
+  <div class="rf-spacer"></div>
+  <table class="rf-table">
+    <thead><tr><th>División</th><th>Heat</th><th>Hora</th><th>Acción</th></tr></thead>
+    <tbody>
+      {% for h in heats %}
+        <tr>
+          <td>{{ h.division.name }}</td>
+          <td>{{ h.heat_number }}</td>
+          <td>{% if h.start_time %}{{ h.start_time }}{% else %}—{% endif %}</td>
+          <td><a class="rf-btn rf-btn--primary" href="{% url 'judging_score_entry' heat_id=h.id %}">Abrir</a></td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="4">Sin heats.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

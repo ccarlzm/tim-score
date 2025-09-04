@@ -1,0 +1,19 @@
+<section class="rf-grid">
+  {% for e in events %}
+    <article class="rf-card">
+      <h3><a href="{% url 'event_detail' slug=e.slug %}">{{ e.name }}</a></h3>
+      <p class="muted">
+        {% if e.start_date %}{{ e.start_date }}{% endif %}
+        {% if e.end_date %} — {{ e.end_date }}{% endif %}
+        {% if e.location %} · {{ e.location }}{% endif %}
+      </p>
+      <p>{{ e.description|truncatewords:28 }}</p>
+      <div class="rf-row">
+        <a class="rf-btn rf-btn--primary" href="{% url 'event_detail' slug=e.slug %}">Ver evento</a>
+        {% if e.is_registration_open %}<span class="rf-pill">Inscripción abierta</span>{% endif %}
+      </div>
+    </article>
+  {% empty %}
+    <p>No hay eventos.</p>
+  {% endfor %}
+</section>

@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Unirse a equipo{% endblock %}
+{% block content %}
+  <h1>Unirse a equipo</h1>
+  <div class="rf-spacer"></div>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="rf-btn rf-btn--primary" type="submit">Unirme</button>
+  </form>
+{% endblock %}

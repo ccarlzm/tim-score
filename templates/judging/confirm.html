@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block title %}Confirmación{% endblock %}
+{% block content %}
+  <h1>Confirmación</h1>
+  <p>Se guardaron los puntajes del Heat {{ heat.heat_number }}.</p>
+  <div class="rf-spacer"></div>
+  <a class="rf-btn rf-btn--ghost" href="{% url 'judging_heat_select' event_slug=heat.workout.event.slug order=heat.workout.order %}">Volver</a>
+{% endblock %}

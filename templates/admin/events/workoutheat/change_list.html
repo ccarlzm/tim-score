@@ -1,0 +1,13 @@
+{% extends "admin/change_list.html" %}
+{% load admin_urls i18n %}
+
+{# Solo cambiamos el enlace del botón "Añadir" para que apunte a propose. #}
+{% block object-tools-items %}
+  {% if has_add_permission %}
+    <li>
+      <a href="{% url 'admin:events_workout_propose' %}" class="addlink">
+        {% blocktranslate with name=cl.opts.verbose_name %}Add {{ name }}{% endblocktranslate %}
+      </a>
+    </li>
+  {% endif %}
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Live — {{ event.name }}{% endblock %}
+{% block content %}
+  <h1>Live · {{ event.name }} <span class="badge-live">LIVE</span></h1>
+  <div class="rf-spacer"></div>
+  {% for d in divisions %}
+    <section class="rf-card" style="margin-bottom:16px">
+      <h3>{{ d.name }}</h3>
+      <a class="rf-btn rf-btn--ghost" href="{% url 'live_workout' event_slug=event.slug division_id=d.id order=current_order %}">Ver W{{ current_order }}</a>
+    </section>
+  {% endfor %}
+{% endblock %}

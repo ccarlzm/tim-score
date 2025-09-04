@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Mi perfil{% endblock %}
+{% block content %}
+  <h1>Mi perfil</h1>
+  <div class="rf-spacer"></div>
+  <section class="rf-card">
+    <h3>{{ user.get_full_name|default:user.username }}</h3>
+    <p class="muted">{{ user.email }}</p>
+    <div class="rf-row">
+      <a class="rf-btn rf-btn--ghost" href="{% url 'accounts_profile_edit' %}">Editar perfil</a>
+    </div>
+  </section>
+{% endblock %}

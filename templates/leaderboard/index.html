@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Leaderboard{% endblock %}
+{% block content %}
+  <h1>Leaderboard</h1>
+  <div class="rf-spacer"></div>
+  <section class="rf-grid">
+    {% for e in events %}
+      <article class="rf-card">
+        <h3>{{ e.name }}</h3>
+        <p class="muted">{{ e.start_date }}{% if e.end_date %} – {{ e.end_date }}{% endif %}</p>
+        <a class="rf-btn rf-btn--primary" href="{% url 'event_leaderboard' event_slug=e.slug %}">Ver leaderboard</a>
+      </article>
+    {% empty %}
+      <p>No hay eventos.</p>
+    {% endfor %}
+  </section>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Ingresar{% endblock %}
+{% block content %}
+  <h1>Ingresar</h1>
+  <div class="rf-spacer"></div>
+  <form method="post">
+    {% csrf_token %}
+    <div class="rf-field"><label for="id_username">Usuario</label>{{ form.username }}</div>
+    <div class="rf-field"><label for="id_password">Contraseña</label>{{ form.password }}</div>
+    {% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
+    <button class="rf-btn rf-btn--primary" type="submit">Entrar</button>
+  </form>
+  {% if signup_enabled %}
+    <div class="rf-spacer"></div>
+    <p class="muted">¿No tienes cuenta?
+      <a href="{% url 'signup' %}{% if next %}?next={{ next }}{% endif %}">Crear cuenta</a>
+    </p>
+  {% endif %}
+{% endblock %}

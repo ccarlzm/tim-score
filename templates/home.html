@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}TIM_SCORE — Plataforma de gestión de competencias{% endblock %}
+
+{% block content %}
+<style>
+  /* Estilos locales a la portada (no afectan otros templates) */
+  .hero-wrap{
+    display:grid; gap:18px; padding:28px 0;
+  }
+  .hero{
+    border:1px solid #e5e7eb; border-radius:20px; background:linear-gradient(180deg,#ffffff 0%,#f9fafb 100%);
+    padding:28px; display:grid; gap:14px;
+  }
+  .hero-title{
+    font-size:28px; line-height:1.15; font-weight:800; letter-spacing:-0.01em; color:#0f172a; margin:0;
+  }
+  .hero-sub{
+    font-size:15px; color:#475569; margin:0;
+  }
+  .cta-row{
+    display:flex; flex-wrap:wrap; gap:10px; margin-top:6px;
+  }
+
+  .band{
+    display:grid; gap:14px; grid-template-columns:1fr; margin-top:8px;
+  }
+  @media(min-width:960px){
+    .band{ grid-template-columns:1.2fr 1fr; }
+  }
+  .card{
+    border:1px solid #e5e7eb; border-radius:16px; background:#fff; padding:18px;
+  }
+  .card h3{ margin:0 0 6px 0; font-size:16px; font-weight:700; color:#0f172a; }
+  .feat-grid{
+    display:grid; gap:10px; grid-template-columns:1fr; margin-top:8px;
+  }
+  @media(min-width:720px){
+    .feat-grid{ grid-template-columns:repeat(2,1fr); }
+  }
+  .feat{
+    border:1px solid #eef2f7; border-radius:12px; background:#fbfcfe; padding:12px;
+  }
+  .feat b{ color:#111827; }
+  .muted{ color:#6b7280; font-size:13px; }
+
+  .chip-row{ display:flex; flex-wrap:wrap; gap:8px; }
+  .chip{ padding:6px 10px; border-radius:999px; border:1px solid #e5e7eb; background:#ffffff; font-size:12px; color:#334155; }
+</style>
+
+<div class="rf-container">
+
+  <!-- HERO -->
+  <section class="hero-wrap">
+    <div class="hero">
+      <h1 class="hero-title">TIM_SCORE</h1>
+      <p class="hero-sub">
+        Plataforma integral de gestión de competencias deportivas. Centraliza la información clave del evento en un solo lugar, permitiendo:
+      </p>
+
+      <div class="feat-grid">
+        <div class="feat">
+          <b>Resultados por heat y workout en tiempo real</b>
+          <div class="muted">Visualización clara y actualizada durante toda la competencia.</div>
+        </div>
+        <div class="feat">
+          <b>Leaderboards con transparencia</b>
+          <div class="muted">Clasificaciones dinámicas para atletas, equipos y divisiones.</div>
+        </div>
+        <div class="feat">
+          <b>Flujo de jueces más ágil</b>
+          <div class="muted">Carga y validación de puntajes con menos fricción.</div>
+        </div>
+        <div class="feat">
+          <b>Gestión de divisiones y eventos</b>
+          <div class="muted">Información accesible y ordenada para todos los participantes.</div>
+        </div>
+      </div>
+
+      <div class="cta-row">
+        <a class="rf-btn rf-btn--primary" href="{% url 'events_list' %}">Ver eventos</a>
+      </div>
+
+      <div class="chip-row" style="margin-top:6px;">
+        <span class="chip">Transparencia</span>
+        <span class="chip">Precisión</span>
+        <span class="chip">Accesibilidad</span>
+        <span class="chip">Rendimiento</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- BLOQUE SECUNDARIO (informativo, no intrusivo) -->
+  <section class="band">
+    <div class="card">
+      <h3>¿Qué es TIM_SCORE?</h3>
+      <p class="muted" style="margin:0;">
+        Es una solución moderna y confiable que optimiza la operación de cada competencia, garantizando
+        <b>orden, precisión y accesibilidad</b> para atletas, jueces y organizadores.
+      </p>
+    </div>
+    <div class="card">
+      <h3>Accesos rápidos</h3>
+      <div class="cta-row" style="margin-top:4px;">
+        <a class="rf-btn rf-btn--ghost" href="{% url 'events_list' %}">Explorar eventos</a>
+      </div>
+    </div>
+  </section>
+
+</div>
+{% endblock %}

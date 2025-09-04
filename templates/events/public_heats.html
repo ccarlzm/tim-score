@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Heats · {{ event.name }} · W{{ workout.order }}{% endblock %}
+
+{% block content %}
+  <h1 class="rf-h1">{{ event.name }} — W{{ workout.order }}: {{ workout.name }}</h1>
+  <p class="muted">{{ event.location }}{% if event.start_date %} · {{ event.start_date }}{% endif %}</p>
+
+  <div class="rf-actions">
+    <a class="rf-btn rf-btn--ghost" href="{% url 'event_detail' event.slug %}">Volver al evento</a>
+  </div>
+
+  <div class="rf-spacer"></div>
+
+  {% if heats %}
+    <table class="rf-table">
+      <thead>
+        <tr>
+          <th>Heat</th>
+          <th>División</th>
+          <th>Carriles</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {# heats llega ordenado por heat_number desde la vista #}
+        {% for h in heats %}
+          <tr>
+            <td>#{{ h.heat_number }}</td>
+            <td>{{ h.division.name }}</td>
+            <td>{{ h.lane_count }}</td>
+            <td style="text-align:right;">
+              <a class="rf-btn rf-btn--sm rf-btn--primary"
+                 href="{% url 'heat_detail' event.slug workout.order h.heat_number %}">
+                Ver Heat
+              </a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p class="muted">No hay heats publicados para este workout.</p>
+  {% endif %}
+{% endblock %}
