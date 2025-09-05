@@ -1,0 +1,33 @@
+# Django
+*.pyc
+__pycache__/
+db.sqlite3
+.env
+.env.local
+
+# Virtual environment
+venv/
+.env/
+.venv/
+
+# IDE
+.vscode/
+.idea/
+.DS_Store
+
+# Static files
+staticfiles/
+media/
+
+# Logs
+*.log
+logs/
+
+# OS
+Thumbs.db
+
+# Archivos de importación temporales
+import_report_*.csv
+
+# Archivos de sistema
+.DS_Storex
