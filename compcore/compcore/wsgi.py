@@ -1,4 +1,7 @@
 import os
 from django.core.wsgi import get_wsgi_application
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'compcore.compcore.settings.base')
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "compcore.compcore.settings")
 application = get_wsgi_application()
+
+
